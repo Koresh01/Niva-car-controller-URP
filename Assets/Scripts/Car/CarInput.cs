@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -8,6 +9,9 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class CarInput : MonoBehaviour
 {
+    [Header("Rigidbody автомобиля.")]
+    [SerializeField] Rigidbody rb;
+
     [Header("Состояние управления ввода:")]
     // Класс сгенерированных действий ввода (создаётся из Input Actions Asset)
     private CarControls controls;
@@ -22,9 +26,12 @@ public class CarInput : MonoBehaviour
     public float brakeInput;
 
     [Header("Характеристики автомобиля:")]
-    [SerializeField] float _gazForce;
     [SerializeField] float _brakeForce;
     [SerializeField] float _maxAngle;
+
+    [Header("КПП:")]
+    public int curGearInx = 1;  // 1 - соответствует нейтральной передаче
+    public List<Gear> gears;
 
 
     [Header("Модельки колёс:")]
@@ -39,52 +46,72 @@ public class CarInput : MonoBehaviour
     public WheelCollider BL;
     public WheelCollider BR;
 
-    // Инициализация схемы ввода
+    #region INPUTS
     void Awake()
     {
         controls = new CarControls();
+        rb = GetComponent<Rigidbody>();
     }
 
-    // Подписка на события ввода
     void OnEnable()
     {
-        // Подписка на события рулевого управления
-        controls.Driving.Steer.performed += ctx => steeringInput = ctx.ReadValue<float>();
-        controls.Driving.Steer.canceled += ctx => steeringInput = 0;
+        controls.Driving.Steer.performed += OnSteer;
+        controls.Driving.Steer.canceled += OnSteerCanceled;
 
-        // Подписка на события газа
-        controls.Driving.Throttle.performed += ctx => throttleInput = ctx.ReadValue<float>();
-        controls.Driving.Throttle.canceled += ctx => throttleInput = 0;
+        controls.Driving.Throttle.performed += OnThrottle;
+        controls.Driving.Throttle.canceled += OnThrottleCanceled;
 
-        // Подписка на события торможения (если назначено)
-        controls.Driving.Brake.performed += ctx => brakeInput = ctx.ReadValue<float>();
-        controls.Driving.Brake.canceled += ctx => brakeInput = 0;
+        controls.Driving.Brake.performed += OnBrake;
+        controls.Driving.Brake.canceled += OnBrakeCanceled;
 
-        // Включение карты действий в Input System
+        controls.Driving.GearUP.performed += OnGearUp;
+        controls.Driving.GearDOWN.performed += OnGearDown;
+
         controls.Driving.Enable();
     }
 
-    // Отписка от событий ввода
     void OnDisable()
     {
-        // ❗ ВАЖНО: такие лямбды не удаляются — это баг. Лучше использовать методы (см. предыдущий ответ)
-        controls.Driving.Steer.performed -= ctx => steeringInput = ctx.ReadValue<float>();
-        controls.Driving.Steer.canceled -= ctx => steeringInput = 0;
+        controls.Driving.Steer.performed -= OnSteer;
+        controls.Driving.Steer.canceled -= OnSteerCanceled;
 
-        controls.Driving.Throttle.performed -= ctx => throttleInput = ctx.ReadValue<float>();
-        controls.Driving.Throttle.canceled -= ctx => throttleInput = 0;
+        controls.Driving.Throttle.performed -= OnThrottle;
+        controls.Driving.Throttle.canceled -= OnThrottleCanceled;
 
-        controls.Driving.Brake.performed -= ctx => brakeInput = ctx.ReadValue<float>();
-        controls.Driving.Brake.canceled -= ctx => brakeInput = 0;
+        controls.Driving.Brake.performed -= OnBrake;
+        controls.Driving.Brake.canceled -= OnBrakeCanceled;
 
-        // Отключение карты действий
+        controls.Driving.GearUP.performed -= OnGearUp;
+        controls.Driving.GearDOWN.performed -= OnGearDown;
+
         controls.Driving.Disable();
     }
+
+    private void OnSteer(InputAction.CallbackContext ctx) => steeringInput = ctx.ReadValue<float>();
+    private void OnSteerCanceled(InputAction.CallbackContext ctx) => steeringInput = 0;
+
+    private void OnThrottle(InputAction.CallbackContext ctx) => throttleInput = ctx.ReadValue<float>();
+    private void OnThrottleCanceled(InputAction.CallbackContext ctx) => throttleInput = 0;
+
+    private void OnBrake(InputAction.CallbackContext ctx) => brakeInput = ctx.ReadValue<float>();
+    private void OnBrakeCanceled(InputAction.CallbackContext ctx) => brakeInput = 0;
+
+    private void OnGearUp(InputAction.CallbackContext ctx)
+    {
+        if (curGearInx < gears.Count-1)
+            curGearInx++;
+    }
+
+    private void OnGearDown(InputAction.CallbackContext ctx)
+    {
+        if (curGearInx > 0)
+            curGearInx--;
+    }
+    #endregion
 
     // Отладочный вывод значений ввода каждую физическую итерацию
     private void FixedUpdate()
     {
-        Debug.Log($"Управление: {steeringInput} \t Газ: {throttleInput} \t Тормоз: {brakeInput}");
         SteeringHandle();
         ThrottleHandler();
         BrakeHandler();
@@ -111,10 +138,26 @@ public class CarInput : MonoBehaviour
     /// </summary>
     void ThrottleHandler()
     {
-        FL.motorTorque = throttleInput * _gazForce;
-        FR.motorTorque = throttleInput * _gazForce;
-        BL.motorTorque = throttleInput * _gazForce;
-        BR.motorTorque = throttleInput * _gazForce;
+        Gear curGear = gears[curGearInx];
+
+        float maxSpeed = curGear.maxSpeed;
+        float force    = curGear.force;
+
+        float curSpeed = rb.linearVelocity.magnitude * 3.6f;
+        if (curSpeed < maxSpeed)
+        {
+            FL.motorTorque = throttleInput * force;
+            FR.motorTorque = throttleInput * force;
+            BL.motorTorque = throttleInput * force;
+            BR.motorTorque = throttleInput * force;
+        }
+        else
+        {
+            FL.motorTorque = 0f;
+            FR.motorTorque = 0f;
+            BL.motorTorque = 0f;
+            BR.motorTorque = 0f;
+        }
     }
 
     /// <summary>

@@ -53,6 +53,24 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""GearUP"",
+                    ""type"": ""Button"",
+                    ""id"": ""8da12015-c75a-4a41-9d1f-1ab5f26f7645"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GearDOWN"",
+                    ""type"": ""Button"",
+                    ""id"": ""43b494c5-0090-4c94-870f-e8f2df3b0805"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -209,6 +227,50 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
                     ""action"": ""Steer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96e47585-dcd2-4111-8357-63f70415edad"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GearUP"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba184362-5e63-4edf-9a1e-ecc1a1a707a4"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GearUP"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f3b31333-17ac-4162-80d5-08490c69138f"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GearDOWN"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""78afe13c-03c7-41f7-95fc-6ff92474afd0"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GearDOWN"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -220,6 +282,8 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
         m_Driving_Steer = m_Driving.FindAction("Steer", throwIfNotFound: true);
         m_Driving_Throttle = m_Driving.FindAction("Throttle", throwIfNotFound: true);
         m_Driving_Brake = m_Driving.FindAction("Brake", throwIfNotFound: true);
+        m_Driving_GearUP = m_Driving.FindAction("GearUP", throwIfNotFound: true);
+        m_Driving_GearDOWN = m_Driving.FindAction("GearDOWN", throwIfNotFound: true);
     }
 
     ~@CarControls()
@@ -289,6 +353,8 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Driving_Steer;
     private readonly InputAction m_Driving_Throttle;
     private readonly InputAction m_Driving_Brake;
+    private readonly InputAction m_Driving_GearUP;
+    private readonly InputAction m_Driving_GearDOWN;
     public struct DrivingActions
     {
         private @CarControls m_Wrapper;
@@ -296,6 +362,8 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
         public InputAction @Steer => m_Wrapper.m_Driving_Steer;
         public InputAction @Throttle => m_Wrapper.m_Driving_Throttle;
         public InputAction @Brake => m_Wrapper.m_Driving_Brake;
+        public InputAction @GearUP => m_Wrapper.m_Driving_GearUP;
+        public InputAction @GearDOWN => m_Wrapper.m_Driving_GearDOWN;
         public InputActionMap Get() { return m_Wrapper.m_Driving; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -314,6 +382,12 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
             @Brake.started += instance.OnBrake;
             @Brake.performed += instance.OnBrake;
             @Brake.canceled += instance.OnBrake;
+            @GearUP.started += instance.OnGearUP;
+            @GearUP.performed += instance.OnGearUP;
+            @GearUP.canceled += instance.OnGearUP;
+            @GearDOWN.started += instance.OnGearDOWN;
+            @GearDOWN.performed += instance.OnGearDOWN;
+            @GearDOWN.canceled += instance.OnGearDOWN;
         }
 
         private void UnregisterCallbacks(IDrivingActions instance)
@@ -327,6 +401,12 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
             @Brake.started -= instance.OnBrake;
             @Brake.performed -= instance.OnBrake;
             @Brake.canceled -= instance.OnBrake;
+            @GearUP.started -= instance.OnGearUP;
+            @GearUP.performed -= instance.OnGearUP;
+            @GearUP.canceled -= instance.OnGearUP;
+            @GearDOWN.started -= instance.OnGearDOWN;
+            @GearDOWN.performed -= instance.OnGearDOWN;
+            @GearDOWN.canceled -= instance.OnGearDOWN;
         }
 
         public void RemoveCallbacks(IDrivingActions instance)
@@ -349,5 +429,7 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
         void OnSteer(InputAction.CallbackContext context);
         void OnThrottle(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
+        void OnGearUP(InputAction.CallbackContext context);
+        void OnGearDOWN(InputAction.CallbackContext context);
     }
 }
