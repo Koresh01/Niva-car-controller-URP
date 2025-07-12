@@ -31,7 +31,7 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
                     ""name"": ""Steer"",
                     ""type"": ""Value"",
                     ""id"": ""f171d6c5-1281-4db9-b28d-bb0b583761f9"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -40,7 +40,7 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
                     ""name"": ""Throttle"",
                     ""type"": ""Value"",
                     ""id"": ""f9e98b67-3a72-4d92-80e6-1690241ff49f"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -49,7 +49,7 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
                     ""name"": ""Brake"",
                     ""type"": ""Value"",
                     ""id"": ""5209604d-a92b-4053-b31c-3ba7763b0def"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -71,6 +71,28 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
                     ""name"": ""positive"",
                     ""id"": ""0cd7381a-9b56-4735-b03a-494efc238d48"",
                     ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""92308740-ff8d-4f89-bcd3-50f6beb8b062"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""db384892-9439-4a08-b9c4-badeb3fc4997"",
+                    ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -102,7 +124,29 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""1D Axis"",
-                    ""id"": ""b41a0bda-3a0b-46be-af89-f3260dd519ce"",
+                    ""id"": ""a14a8de3-2cbc-4179-bf31-38d6281579ed"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""49bbeaf2-ffa8-448f-8968-5098b10ea28e"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""5940c31c-ea07-40a4-a3bb-4e5d25a019c8"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -113,7 +157,7 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""negative"",
-                    ""id"": ""84779d8f-4aa9-4bc2-b877-33275b407d30"",
+                    ""id"": ""f74baf48-876d-43f6-bc60-f83cb6be71ab"",
                     ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -124,8 +168,41 @@ public partial class @CarControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""positive"",
-                    ""id"": ""ddc96eb4-63ac-42f4-87e1-45c89b4cbb50"",
+                    ""id"": ""e192b1b2-50b7-40c7-9e95-06e3d84e52c2"",
                     ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""8ace681d-e9d6-437a-9a23-3b3661cd1af8"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""95d3da72-3b18-4030-878c-3feb1c472776"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""6828eea3-01d8-4f19-b247-b21fe370f973"",
+                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
