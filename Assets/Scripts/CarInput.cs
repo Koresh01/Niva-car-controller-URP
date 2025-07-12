@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class CarInput : MonoBehaviour
 {
+    [Header("Состояние управления ввода:")]
     // Класс сгенерированных действий ввода (создаётся из Input Actions Asset)
     private CarControls controls;
 
@@ -19,6 +20,24 @@ public class CarInput : MonoBehaviour
 
     // Текущее значение тормоза (если используется)
     public float brakeInput;
+
+    [Header("Характеристики автомобиля:")]
+    [SerializeField] float _gazForce;
+    [SerializeField] float _brakeForce;
+    [SerializeField] float _maxAngle;
+
+
+    [Header("Модельки колёс:")]
+    public Transform wheelFL;
+    public Transform wheelFR;
+    public Transform wheelBL;
+    public Transform wheelBR;
+
+    [Header("WheelColliders:")]
+    public WheelCollider FL;
+    public WheelCollider FR;
+    public WheelCollider BL;
+    public WheelCollider BR;
 
     // Инициализация схемы ввода
     void Awake()
@@ -66,5 +85,70 @@ public class CarInput : MonoBehaviour
     private void FixedUpdate()
     {
         Debug.Log($"Управление: {steeringInput} \t Газ: {throttleInput} \t Тормоз: {brakeInput}");
+        SteeringHandle();
+        ThrottleHandler();
+        BrakeHandler();
+    }
+
+    /// <summary>
+    /// Хэндлер руления.
+    /// </summary>
+    void SteeringHandle()
+    {
+        FL.steerAngle = _maxAngle * steeringInput;
+        FR.steerAngle = _maxAngle * steeringInput;
+
+        RotateWheel(FL, wheelFL);
+        RotateWheel(FR, wheelFR);
+        
+        // задние колеса
+        RotateWheel(BR, wheelBR);
+        RotateWheel(BL, wheelBL);
+    }
+
+    /// <summary>
+    /// Хэндлер подачи топлива.
+    /// </summary>
+    void ThrottleHandler()
+    {
+        FL.motorTorque = throttleInput * _gazForce;
+        FR.motorTorque = throttleInput * _gazForce;
+        BL.motorTorque = throttleInput * _gazForce;
+        BR.motorTorque = throttleInput * _gazForce;
+    }
+
+    /// <summary>
+    /// Хэндлер торможения.
+    /// </summary>
+    void BrakeHandler()
+    {
+        if (brakeInput > 0.05)
+        {
+            FL.brakeTorque = brakeInput * _brakeForce;
+            FR.brakeTorque = brakeInput * _brakeForce;
+            BL.brakeTorque = brakeInput * _brakeForce;
+            BR.brakeTorque = brakeInput * _brakeForce;
+        }
+        else
+        {
+            FL.brakeTorque = 0;
+            FR.brakeTorque = 0;
+            BL.brakeTorque = 0;
+            BR.brakeTorque = 0;
+        }
+    }
+
+    /// <summary>
+    /// Поворачивает модельку колеса вслед за её колайдером.
+    /// </summary>
+    void RotateWheel(WheelCollider collider, Transform transform)
+    {
+        Vector3 position;
+        Quaternion rotation;
+
+        collider.GetWorldPose(out position, out rotation);
+        
+        transform.position = position;
+        transform.rotation = rotation;
     }
 }
