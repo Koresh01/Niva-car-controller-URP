@@ -153,10 +153,19 @@ public class CarInput : MonoBehaviour
         }
         else
         {
+            // Перестаём крутить колёса.
             FL.motorTorque = 0f;
             FR.motorTorque = 0f;
             BL.motorTorque = 0f;
             BR.motorTorque = 0f;
+
+            // Торможение двигателем
+            float engineBrakeTorque = -force * 0.5f; // Можешь настроить силу
+            FL.motorTorque = engineBrakeTorque;
+            FR.motorTorque = engineBrakeTorque;
+            BL.motorTorque = engineBrakeTorque;
+            BR.motorTorque = engineBrakeTorque;
+
         }
     }
 
