@@ -12,6 +12,14 @@ public class CarInput : MonoBehaviour
     [Header("Rigidbody автомобиля.")]
     [SerializeField] Rigidbody rb;
 
+    [Header("MovementStatistics:")]
+    [Tooltip("Текущая скорость автомобиля в км/ч.")] public float curSpeed;
+    [Tooltip("Текущее кол-во оборотов двигателя")] public float curRPM;
+    [Tooltip("Индекс текущей передачи.")] public int curGearInx = 1;  // 1 - соответствует нейтральной передаче
+    [Tooltip("Максимальная скорость для текущей передачи.")] public float maxSpeedForThisGear;
+    [Tooltip("Крутящий момент с коробки передач на колёса.")] public float RotationalMomentForce;
+
+
     [Header("Состояние управления ввода:")]
     // Класс сгенерированных действий ввода (создаётся из Input Actions Asset)
     private CarControls controls;
@@ -30,7 +38,7 @@ public class CarInput : MonoBehaviour
     [SerializeField] float _maxAngle;
 
     [Header("КПП:")]
-    public int curGearInx = 1;  // 1 - соответствует нейтральной передаче
+    
     public List<Gear> gears;
 
 
@@ -112,9 +120,20 @@ public class CarInput : MonoBehaviour
     // Отладочный вывод значений ввода каждую физическую итерацию
     private void FixedUpdate()
     {
+        CollectMovementStatistics();
         SteeringHandle();
         ThrottleHandler();
         BrakeHandler();
+    }
+
+    void CollectMovementStatistics()
+    {
+        curSpeed = rb.linearVelocity.magnitude * 3.6f;
+        maxSpeedForThisGear = gears[curGearInx].maxSpeed;
+        
+        curRPM = (curGearInx != 1) ? curSpeed / maxSpeedForThisGear : throttleInput;    // На нейтралке RPM определяется нажатием педали газа
+
+        RotationalMomentForce = gears[curGearInx].force;
     }
 
     /// <summary>
@@ -137,19 +156,13 @@ public class CarInput : MonoBehaviour
     /// Хэндлер подачи топлива.
     /// </summary>
     void ThrottleHandler()
-    {
-        Gear curGear = gears[curGearInx];
-
-        float maxSpeed = curGear.maxSpeed;
-        float force    = curGear.force;
-
-        float curSpeed = rb.linearVelocity.magnitude * 3.6f;
-        if (curSpeed < maxSpeed)
+    {       
+        if (curSpeed < maxSpeedForThisGear)
         {
-            FL.motorTorque = throttleInput * force;
-            FR.motorTorque = throttleInput * force;
-            BL.motorTorque = throttleInput * force;
-            BR.motorTorque = throttleInput * force;
+            FL.motorTorque = throttleInput * RotationalMomentForce;
+            FR.motorTorque = throttleInput * RotationalMomentForce;
+            BL.motorTorque = throttleInput * RotationalMomentForce;
+            BR.motorTorque = throttleInput * RotationalMomentForce;
         }
         else
         {
@@ -160,7 +173,7 @@ public class CarInput : MonoBehaviour
             BR.motorTorque = 0f;
 
             // Торможение двигателем
-            float engineBrakeTorque = -force * 0.5f; // Можешь настроить силу
+            float engineBrakeTorque = -RotationalMomentForce * 0.5f; // Можешь настроить силу
             FL.motorTorque = engineBrakeTorque;
             FR.motorTorque = engineBrakeTorque;
             BL.motorTorque = engineBrakeTorque;
