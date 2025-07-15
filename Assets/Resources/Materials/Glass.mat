@@ -51,13 +51,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DistortStrength: 0.455
+    - _DistortStrength: 0.616
     - _Metallic: 1
-    - _NoiseScale: 526
-    - _NormalStrength: 1
+    - _NoiseScale: 468
+    - _NormalStrength: 0.699
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReflectionStrength: 0.07
+    - _ReflectionStrength: 0.16
     - _Smoothness: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 0}
