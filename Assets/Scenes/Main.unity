@@ -391,7 +391,7 @@ MonoBehaviour:
   carInput: {fileID: 2993302098188029155}
   idleClip: {fileID: 8300000, guid: 6b4fe61ba44d8c840883c856931da1cb, type: 3}
   middleClip: {fileID: 8300000, guid: 5b4343a7ede50e141bee7b5d244acab4, type: 3}
-  highClip: {fileID: 8300000, guid: c67db47d0edf3e840b37d594184f1e5b, type: 3}
+  highClip: {fileID: 8300000, guid: 9b41b5e7bd44a304d888febec53d70aa, type: 3}
   lowRPMThreshold: 0
   middleRPMThreshold: 0.5
   highRPMThreshold: 1

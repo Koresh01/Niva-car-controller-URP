@@ -18,6 +18,7 @@ public class CarInput : MonoBehaviour
     [Tooltip("Индекс текущей передачи.")] public int curGearInx = 1;  // 1 - соответствует нейтральной передаче
     [Tooltip("Максимальная скорость для текущей передачи.")] public float maxSpeedForThisGear;
     [Tooltip("Крутящий момент с коробки передач на колёса.")] public float RotationalMomentForce;
+    [Tooltip("Радиус колеса в МЕТРАХ.")] public float wheelRadius;
 
 
     [Header("Состояние управления ввода:")]
@@ -38,7 +39,7 @@ public class CarInput : MonoBehaviour
     [SerializeField] float _maxAngle;
 
     [Header("КПП:")]
-    
+
     public List<Gear> gears;
 
 
@@ -59,6 +60,7 @@ public class CarInput : MonoBehaviour
     {
         controls = new CarControls();
         rb = GetComponent<Rigidbody>();
+        wheelRadius = BL.radius;    // the radius of the wheel measurment in a local space?? Мне надо в метрах
     }
 
     void OnEnable()
@@ -106,7 +108,7 @@ public class CarInput : MonoBehaviour
 
     private void OnGearUp(InputAction.CallbackContext ctx)
     {
-        if (curGearInx < gears.Count-1)
+        if (curGearInx < gears.Count - 1)
             curGearInx++;
     }
 
@@ -128,10 +130,18 @@ public class CarInput : MonoBehaviour
 
     void CollectMovementStatistics()
     {
-        curSpeed = rb.linearVelocity.magnitude * 3.6f;
+        curSpeed = rb.linearVelocity.magnitude * 3.6f; // Rigidbody-скорость
+
         maxSpeedForThisGear = gears[curGearInx].maxSpeed;
-        
-        curRPM = (curGearInx != 1) ? curSpeed / maxSpeedForThisGear : throttleInput;    // На нейтралке RPM определяется нажатием педали газа
+
+        float wheelRpm = (BL.rpm + BR.rpm + FL.rpm + FR.rpm) / 4f;
+
+        float wheelSpeed = 2 * Mathf.PI * wheelRadius * wheelRpm / 60f * 3.6f; // Скорость от колеса, км/ч
+
+        if (curGearInx != 1) // не нейтраль
+            curRPM = wheelSpeed / maxSpeedForThisGear;
+        else
+            curRPM = throttleInput;
 
         RotationalMomentForce = gears[curGearInx].force;
     }
@@ -146,7 +156,7 @@ public class CarInput : MonoBehaviour
 
         RotateWheel(FL, wheelFL);
         RotateWheel(FR, wheelFR);
-        
+
         // задние колеса
         RotateWheel(BR, wheelBR);
         RotateWheel(BL, wheelBL);
@@ -156,7 +166,7 @@ public class CarInput : MonoBehaviour
     /// Хэндлер подачи топлива.
     /// </summary>
     void ThrottleHandler()
-    {       
+    {
         if (curSpeed < maxSpeedForThisGear)
         {
             FL.motorTorque = throttleInput * RotationalMomentForce;
@@ -212,7 +222,7 @@ public class CarInput : MonoBehaviour
         Quaternion rotation;
 
         collider.GetWorldPose(out position, out rotation);
-        
+
         transform.position = position;
         transform.rotation = rotation;
     }

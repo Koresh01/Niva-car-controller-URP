@@ -38,7 +38,7 @@ public class EngineSoundController : MonoBehaviour
     void Update()
     {
         // Пример: RPM = скорость / макс. скорость текущей передачи
-        rpm01 = Mathf.Clamp01(carInput.curRPM * carInput.throttleInput);
+        rpm01 = Mathf.Clamp01(carInput.curRPM); // carInput.throttleInput
         Debug.Log($"rpm01: {rpm01}");
 
         // Обновляем громкость дорожек в зависимости от RPM
@@ -55,7 +55,7 @@ public class EngineSoundController : MonoBehaviour
         middleSource.volume = Mathf.Lerp(middleSource.volume, middleTarget, Time.deltaTime * volumeFadeSpeed);
         highSource.volume = Mathf.Lerp(highSource.volume, highTarget, Time.deltaTime * volumeFadeSpeed);
 
-        Debug.Log($"idle: {idleSource.volume:F2}, middle: {middleSource.volume:F2}, high: {highSource.volume:F2}");
+        //Debug.Log($"idle: {idleSource.volume:F2}, middle: {middleSource.volume:F2}, high: {highSource.volume:F2}");
     }
 
 
