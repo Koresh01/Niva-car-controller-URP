@@ -183,7 +183,7 @@ public class CarInput : MonoBehaviour
             BR.motorTorque = 0f;
 
             // Торможение двигателем
-            float engineBrakeTorque = -RotationalMomentForce * 0.5f; // Можешь настроить силу
+            float engineBrakeTorque = -Mathf.Sign(RotationalMomentForce) * RotationalMomentForce * 0.5f; // Можешь настроить силу
             FL.motorTorque = engineBrakeTorque;
             FR.motorTorque = engineBrakeTorque;
             BL.motorTorque = engineBrakeTorque;

@@ -402,7 +402,7 @@ MonoBehaviour:
   highClipMaxVolume: 1
   low_spread: 0.073
   mid_spread: 1
-  high_spread: 0.36
+  high_spread: 0.3
 --- !u!1 &406768315
 GameObject:
   m_ObjectHideFlags: 0
@@ -2720,19 +2720,19 @@ MonoBehaviour:
   _maxAngle: 34
   gears:
   - maxSpeed: 26
-    force: -700
+    force: -500
   - maxSpeed: 0
     force: 0
   - maxSpeed: 43.7
-    force: 700
+    force: 500
   - maxSpeed: 76.3
-    force: 350
+    force: 400
   - maxSpeed: 117.7
-    force: 175
+    force: 225
   - maxSpeed: 149.2
-    force: 87.5
+    force: 100
   - maxSpeed: 146.5
-    force: 50
+    force: 70
   wheelFL: {fileID: 5423238278429299486}
   wheelFR: {fileID: 8663117395293113545}
   wheelBL: {fileID: 2407480759456218386}
