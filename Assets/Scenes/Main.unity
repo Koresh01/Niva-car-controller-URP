@@ -2708,7 +2708,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   curSpeed: 0
+  wheelSpeed: 0
+  velocityDirection: 0
+  directedSpeedKmh: 0
   curRPM: 0
+  wheelRpm_average: 0
   curGearInx: 1
   maxSpeedForThisGear: 0
   RotationalMomentForce: 0
@@ -2719,7 +2723,7 @@ MonoBehaviour:
   _brakeForce: 2000
   _maxAngle: 34
   gears:
-  - maxSpeed: 26
+  - maxSpeed: -26
     force: -500
   - maxSpeed: 0
     force: 0

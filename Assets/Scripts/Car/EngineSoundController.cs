@@ -1,8 +1,8 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class EngineSoundController : MonoBehaviour
 {
-    [Header("Ссылки")]
+    [Header("РЎСЃС‹Р»РєРё")]
     public CarInput carInput;
 
     [Header("Audio Clips")]
@@ -10,27 +10,27 @@ public class EngineSoundController : MonoBehaviour
     public AudioClip middleClip;
     public AudioClip highClip;
 
-    [Header("RPM параметры")]
-    [Range(0f, 1f), Tooltip("Макс. громкость холостых оборотов при RPM == ")] public float lowRPMThreshold = 0.0f;
-    [Range(0f, 1f), Tooltip("Макс. громкость средних оборотов при RPM == ")] public float middleRPMThreshold = 0.5f;
-    [Range(0f, 1f), Tooltip("Макс. громкость высоких оборотов при RPM == ")] public float highRPMThreshold = 1f;
+    [Header("RPM РїР°СЂР°РјРµС‚СЂС‹")]
+    [Range(0f, 1f), Tooltip("РњР°РєСЃ. РіСЂРѕРјРєРѕСЃС‚СЊ С…РѕР»РѕСЃС‚С‹С… РѕР±РѕСЂРѕС‚РѕРІ РїСЂРё RPM == ")] public float lowRPMThreshold = 0.0f;
+    [Range(0f, 1f), Tooltip("РњР°РєСЃ. РіСЂРѕРјРєРѕСЃС‚СЊ СЃСЂРµРґРЅРёС… РѕР±РѕСЂРѕС‚РѕРІ РїСЂРё RPM == ")] public float middleRPMThreshold = 0.5f;
+    [Range(0f, 1f), Tooltip("РњР°РєСЃ. РіСЂРѕРјРєРѕСЃС‚СЊ РІС‹СЃРѕРєРёС… РѕР±РѕСЂРѕС‚РѕРІ РїСЂРё RPM == ")] public float highRPMThreshold = 1f;
 
     
 
-    [Header("Громкость")]
+    [Header("Р“СЂРѕРјРєРѕСЃС‚СЊ")]
     public float volumeFadeSpeed = 5f;
     [Range(0, 1)] public float lowClipMaxVolume = 1f;
     [Range(0, 1)] public float midClipMaxVolume = 1f;
     [Range(0, 1)] public float highClipMaxVolume = 1f;
 
-    [Header("Ширина диапазона каждой дорожки")]
-    [Tooltip("Определяет, насколько широкая область RPM влияет на громкость холостых оборотов. Чем больше значение, тем дольше звучит дорожка.")]
+    [Header("РЁРёСЂРёРЅР° РґРёР°РїР°Р·РѕРЅР° РєР°Р¶РґРѕР№ РґРѕСЂРѕР¶РєРё")]
+    [Tooltip("РћРїСЂРµРґРµР»СЏРµС‚, РЅР°СЃРєРѕР»СЊРєРѕ С€РёСЂРѕРєР°СЏ РѕР±Р»Р°СЃС‚СЊ RPM РІР»РёСЏРµС‚ РЅР° РіСЂРѕРјРєРѕСЃС‚СЊ С…РѕР»РѕСЃС‚С‹С… РѕР±РѕСЂРѕС‚РѕРІ. Р§РµРј Р±РѕР»СЊС€Рµ Р·РЅР°С‡РµРЅРёРµ, С‚РµРј РґРѕР»СЊС€Рµ Р·РІСѓС‡РёС‚ РґРѕСЂРѕР¶РєР°.")]
     [Range(0f, 1f)] public float low_spread = 0.5f;
 
-    [Tooltip("Определяет ширину зоны, в которой слышна дорожка средних оборотов.")]
+    [Tooltip("РћРїСЂРµРґРµР»СЏРµС‚ С€РёСЂРёРЅСѓ Р·РѕРЅС‹, РІ РєРѕС‚РѕСЂРѕР№ СЃР»С‹С€РЅР° РґРѕСЂРѕР¶РєР° СЃСЂРµРґРЅРёС… РѕР±РѕСЂРѕС‚РѕРІ.")]
     [Range(0f, 1f)] public float mid_spread = 0.5f;
 
-    [Tooltip("Определяет ширину зоны, в которой слышна дорожка высоких оборотов.")]
+    [Tooltip("РћРїСЂРµРґРµР»СЏРµС‚ С€РёСЂРёРЅСѓ Р·РѕРЅС‹, РІ РєРѕС‚РѕСЂРѕР№ СЃР»С‹С€РЅР° РґРѕСЂРѕР¶РєР° РІС‹СЃРѕРєРёС… РѕР±РѕСЂРѕС‚РѕРІ.")]
     [Range(0f, 1f)] public float high_spread = 0.5f;
 
 
@@ -38,11 +38,11 @@ public class EngineSoundController : MonoBehaviour
     private AudioSource middleSource;
     private AudioSource highSource;
 
-    private float rpm01 = 0f; // Нормализованный RPM от 0 до 1
+    private float rpm01 = 0f; // РќРѕСЂРјР°Р»РёР·РѕРІР°РЅРЅС‹Р№ RPM РѕС‚ 0 РґРѕ 1
 
     void Start()
     {
-        // Создаем три отдельные аудиодорожки
+        // РЎРѕР·РґР°РµРј С‚СЂРё РѕС‚РґРµР»СЊРЅС‹Рµ Р°СѓРґРёРѕРґРѕСЂРѕР¶РєРё
         idleSource = CreateAudioSource(idleClip);
         middleSource = CreateAudioSource(middleClip);
         highSource = CreateAudioSource(highClip);
@@ -50,11 +50,10 @@ public class EngineSoundController : MonoBehaviour
 
     void Update()
     {
-        // Пример: RPM = скорость / макс. скорость текущей передачи
+        // РџСЂРёРјРµСЂ: RPM = СЃРєРѕСЂРѕСЃС‚СЊ / РјР°РєСЃ. СЃРєРѕСЂРѕСЃС‚СЊ С‚РµРєСѓС‰РµР№ РїРµСЂРµРґР°С‡Рё
         rpm01 = Mathf.Clamp01(carInput.curRPM); // carInput.throttleInput
-        Debug.Log($"rpm01: {rpm01}");
 
-        // Обновляем громкость дорожек в зависимости от RPM
+        // РћР±РЅРѕРІР»СЏРµРј РіСЂРѕРјРєРѕСЃС‚СЊ РґРѕСЂРѕР¶РµРє РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ RPM
         UpdateVolumes();
     }
 
@@ -85,7 +84,7 @@ public class EngineSoundController : MonoBehaviour
         source.loop = true;
         source.playOnAwake = true;
         source.volume = 0f;
-        source.spatialBlend = 1f; // 3D звук
+        source.spatialBlend = 1f; // 3D Р·РІСѓРє
         source.Play();
         return source;
     }

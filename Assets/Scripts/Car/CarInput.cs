@@ -12,19 +12,30 @@ public class CarInput : MonoBehaviour
     [Header("Rigidbody автомобиля.")]
     [SerializeField] Rigidbody rb;
 
-    [Header("MovementStatistics:")]
+    [Header("Movement Statistics --------------------------------------------------")]
+
+    [Header("Все скорости")]
     [Tooltip("Текущая скорость автомобиля в км/ч.")] public float curSpeed;
-    [Tooltip("Текущее кол-во оборотов двигателя")] public float curRPM;
+    [Tooltip("Линейная скорость колёс в км/ч")] public float wheelSpeed;
+    [Tooltip("Направление движения (вперёд или назад), со знаком")] public float velocityDirection;
+    [Tooltip("Направленная скорость колёс в км/ч")] public float directedSpeedKmh;
+
+    [Header("Все RPM:")]
+    [Tooltip("Текущее значение оборотов двигателя в минуту")] public float curRPM;
+    [Tooltip("Среднее значение оборотов колёс в минуту")] public float wheelRpm_average;
+
+    [Header("КПП:")]
     [Tooltip("Индекс текущей передачи.")] public int curGearInx = 1;  // 1 - соответствует нейтральной передаче
     [Tooltip("Максимальная скорость для текущей передачи.")] public float maxSpeedForThisGear;
     [Tooltip("Крутящий момент с коробки передач на колёса.")] public float RotationalMomentForce;
     [Tooltip("Радиус колеса в МЕТРАХ.")] public float wheelRadius;
 
 
-    [Header("Состояние управления ввода:")]
+
     // Класс сгенерированных действий ввода (создаётся из Input Actions Asset)
     private CarControls controls;
 
+    [Header("-------------------------------------------------- Driver Input")]
     // Текущее значение поворота руля (от -1 до 1)
     public float steeringInput;
 
@@ -130,19 +141,27 @@ public class CarInput : MonoBehaviour
 
     void CollectMovementStatistics()
     {
-        curSpeed = rb.linearVelocity.magnitude * 3.6f; // Rigidbody-скорость
-
+        // Определяем все скорости:
+        curSpeed = rb.linearVelocity.magnitude * 3.6f; // Rigidbody-скорость в км/ч
         maxSpeedForThisGear = gears[curGearInx].maxSpeed;
 
-        float wheelRpm = (BL.rpm + BR.rpm + FL.rpm + FR.rpm) / 4f;
+        velocityDirection = Mathf.Sign(Vector3.Dot(rb.linearVelocity, transform.forward));
 
-        float wheelSpeed = 2 * Mathf.PI * wheelRadius * wheelRpm / 60f * 3.6f; // Скорость от колеса, км/ч
+        // Абсолютная скорость (м/с) умножаем на 3.6 -> км/ч
+        directedSpeedKmh = rb.linearVelocity.magnitude * 3.6f * velocityDirection;
 
+
+        wheelRpm_average = (BL.rpm + BR.rpm + FL.rpm + FR.rpm) / 4f;
+
+        wheelSpeed = 2 * Mathf.PI * wheelRadius * wheelRpm_average / 60f * 3.6f; // Скорость от колеса, км/ч
+
+        // Определяем кол-во оборотов двигателя в мин
         if (curGearInx != 1) // не нейтраль
             curRPM = wheelSpeed / maxSpeedForThisGear;
         else
             curRPM = throttleInput;
 
+        // Задаём крутящий момент:
         RotationalMomentForce = gears[curGearInx].force;
     }
 
@@ -167,14 +186,18 @@ public class CarInput : MonoBehaviour
     /// </summary>
     void ThrottleHandler()
     {
-        if (curSpeed < maxSpeedForThisGear)
-        {
-            FL.motorTorque = throttleInput * RotationalMomentForce;
-            FR.motorTorque = throttleInput * RotationalMomentForce;
-            BL.motorTorque = throttleInput * RotationalMomentForce;
-            BR.motorTorque = throttleInput * RotationalMomentForce;
-        }
-        else
+        bool isForwardGear = curGearInx >= 2;
+        bool isReverseGear = curGearInx == 0;
+        /*
+         Для задней передачи maxSpeedForThisGear = -26 км/ч
+         Для передней передачи maxSpeedForThisGear = 43 км/ч
+        
+        Когда едем вперед, то условие должно выглядеть if (directedSpeedKmh < maxSpeedForThisGear) -> подгоняем вперёд если водитель держит газ
+        Когда едем назад, то условие должно выглядеть  if (directedSpeedKmh > maxSpeedForThisGear) -> подгоняем назад если водитель держит газ
+         */
+        // Условие: торможения двигателем
+        if ((isForwardGear && directedSpeedKmh > maxSpeedForThisGear) ||
+            (isReverseGear && (directedSpeedKmh < maxSpeedForThisGear || velocityDirection > 0f)))  // Включили заднюю передачу, когда ехали вперёд
         {
             // Перестаём крутить колёса.
             FL.motorTorque = 0f;
@@ -182,12 +205,19 @@ public class CarInput : MonoBehaviour
             BL.motorTorque = 0f;
             BR.motorTorque = 0f;
 
-            // Торможение двигателем
-            float engineBrakeTorque = -Mathf.Sign(RotationalMomentForce) * RotationalMomentForce * 0.5f; // Можешь настроить силу
+            // Торможение двигателем (в сторону противоположную движению)
+            float engineBrakeTorque = -velocityDirection * Mathf.Abs(RotationalMomentForce) * 0.5f; // Можешь настроить силу
             FL.motorTorque = engineBrakeTorque;
             FR.motorTorque = engineBrakeTorque;
             BL.motorTorque = engineBrakeTorque;
             BR.motorTorque = engineBrakeTorque;
+        }
+        else
+        {
+            FL.motorTorque = throttleInput * RotationalMomentForce;
+            FR.motorTorque = throttleInput * RotationalMomentForce;
+            BL.motorTorque = throttleInput * RotationalMomentForce;
+            BR.motorTorque = throttleInput * RotationalMomentForce;
         }
     }
 
