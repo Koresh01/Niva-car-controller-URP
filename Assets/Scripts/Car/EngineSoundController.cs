@@ -15,11 +15,24 @@ public class EngineSoundController : MonoBehaviour
     [Range(0f, 1f), Tooltip("Макс. громкость средних оборотов при RPM == ")] public float middleRPMThreshold = 0.5f;
     [Range(0f, 1f), Tooltip("Макс. громкость высоких оборотов при RPM == ")] public float highRPMThreshold = 1f;
 
+    
+
     [Header("Громкость")]
     public float volumeFadeSpeed = 5f;
     [Range(0, 1)] public float lowClipMaxVolume = 1f;
     [Range(0, 1)] public float midClipMaxVolume = 1f;
     [Range(0, 1)] public float highClipMaxVolume = 1f;
+
+    [Header("Ширина диапазона каждой дорожки")]
+    [Tooltip("Определяет, насколько широкая область RPM влияет на громкость холостых оборотов. Чем больше значение, тем дольше звучит дорожка.")]
+    [Range(0f, 1f)] public float low_spread = 0.5f;
+
+    [Tooltip("Определяет ширину зоны, в которой слышна дорожка средних оборотов.")]
+    [Range(0f, 1f)] public float mid_spread = 0.5f;
+
+    [Tooltip("Определяет ширину зоны, в которой слышна дорожка высоких оборотов.")]
+    [Range(0f, 1f)] public float high_spread = 0.5f;
+
 
     private AudioSource idleSource;
     private AudioSource middleSource;
@@ -47,9 +60,9 @@ public class EngineSoundController : MonoBehaviour
 
     private void UpdateVolumes()
     {
-        float idleTarget = TriangularVolume(rpm01, 0f, 0.5f) * lowClipMaxVolume;
-        float middleTarget = TriangularVolume(rpm01, 0.5f, 0.5f) * midClipMaxVolume;
-        float highTarget = TriangularVolume(rpm01, 1f, 0.5f) * highClipMaxVolume;
+        float idleTarget = TriangularVolume(rpm01, 0f, low_spread) * lowClipMaxVolume;
+        float middleTarget = TriangularVolume(rpm01, 0.5f, mid_spread) * midClipMaxVolume;
+        float highTarget = TriangularVolume(rpm01, 1f, high_spread) * highClipMaxVolume;
 
         idleSource.volume = Mathf.Lerp(idleSource.volume, idleTarget, Time.deltaTime * volumeFadeSpeed);
         middleSource.volume = Mathf.Lerp(middleSource.volume, middleTarget, Time.deltaTime * volumeFadeSpeed);
