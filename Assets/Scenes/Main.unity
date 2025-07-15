@@ -375,8 +375,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   car: {fileID: 2504433271935178328}
-  offset: {x: -2, y: 2.44, z: -3.41}
-  lookTargetOffset: {x: 0, y: 1.18, z: 1.34}
+  offset: {x: -1.85, y: 2.44, z: -4.23}
+  lookTargetOffset: {x: 0, y: 0.79, z: 0}
 --- !u!114 &330585549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,17 +392,17 @@ MonoBehaviour:
   carInput: {fileID: 2993302098188029155}
   idleClip: {fileID: 8300000, guid: df8447b56abb85e42b6029e298878246, type: 3}
   middleClip: {fileID: 8300000, guid: ee5edbb453fe1e944afb075366944f1f, type: 3}
-  highClip: {fileID: 8300000, guid: 7b5558fab310da04b85be973600813c5, type: 3}
+  highClip: {fileID: 8300000, guid: f3d03fb12836f694ab9e15efaf4ae2c3, type: 3}
   lowRPMThreshold: 0
   middleRPMThreshold: 0.83
   highRPMThreshold: 1
   volumeFadeSpeed: 5
-  lowClipMaxVolume: 0.7
+  lowClipMaxVolume: 1
   midClipMaxVolume: 1
-  highClipMaxVolume: 0.503
+  highClipMaxVolume: 1
   low_spread: 0.073
   mid_spread: 0.915
-  high_spread: 0.218
+  high_spread: 0.6
 --- !u!1 &406768315
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,8 +822,8 @@ Terrain:
   m_Enabled: 1
   serializedVersion: 6
   m_TerrainData: {fileID: 15600000, guid: 40188d6e92479b24cbde288bde2bfe84, type: 2}
-  m_TreeDistance: 5000
-  m_TreeBillboardDistance: 50
+  m_TreeDistance: 100
+  m_TreeBillboardDistance: 100
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
   m_DetailObjectDistance: 80
