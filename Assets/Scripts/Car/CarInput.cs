@@ -188,7 +188,6 @@ public class CarInput : MonoBehaviour
             FR.motorTorque = engineBrakeTorque;
             BL.motorTorque = engineBrakeTorque;
             BR.motorTorque = engineBrakeTorque;
-
         }
     }
 
