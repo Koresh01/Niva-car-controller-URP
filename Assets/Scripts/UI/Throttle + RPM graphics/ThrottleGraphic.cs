@@ -23,8 +23,8 @@ public class ThrottleGraphic : MonoBehaviour
 
     void Start()
     {
-        plot = new GraphPlot(graphImage, 128, historyLength);
-        plot.SetFixedRange(0, historyLength - 1, -0.1f, 1.1f); // X: от 0 до N-1, Y: от 0 до 1 (для throttle)
+        plot = new GraphPlot(graphImage, 256, historyLength);
+        plot.SetFixedRange(0, historyLength, -0.1f, 1.1f); // X: от 0 до N-1, Y: от 0 до 1 (для throttle)
         plot.lineColor = Color.green;
     }
         

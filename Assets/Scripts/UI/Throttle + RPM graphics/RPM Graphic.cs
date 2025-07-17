@@ -23,14 +23,14 @@ public class RPMGraphic : MonoBehaviour
 
     void Start()
     {
-        plot = new GraphPlot(graphImage, 128, historyLength);
-        plot.SetFixedRange(0, historyLength - 1, -0.1f, 1.1f); // X: от 0 до N-1, Y: от 0 до 1 (для throttle)
+        plot = new GraphPlot(graphImage, 256, historyLength);
+        plot.SetFixedRange(0, historyLength, -0.1f, 1.1f); // X: от 0 до N-1, Y: от 0 до 1 (для throttle)
         plot.lineColor = Color.red;
     }
 
     void FixedUpdate()
     {
-        float currentThrottle = carInput.curRPM;
+        float currentThrottle = Mathf.Clamp01(carInput.curRPM);
 
         if (points.Count < historyLength)
         {

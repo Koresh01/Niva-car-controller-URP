@@ -343,7 +343,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 308, y: -166}
+  m_AnchoredPosition: {x: 308, y: -148.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &110074573
@@ -1272,9 +1272,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 953a5cb0700f6234caeb034550d82ade, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 8
   car: {fileID: 2504433271935178328}
-  offset: {x: -1.77, y: 3, z: -4}
+  offset: {x: -1.77, y: 2.15, z: -4}
   lookTargetOffset: {x: 0, y: 0.2, z: 1}
 --- !u!114 &330585549
 MonoBehaviour:
@@ -1873,7 +1873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carInput: {fileID: 2993302098188029155}
   graphImage: {fileID: 552430118}
-  historyLength: 300
+  historyLength: 150
 --- !u!114 &552430118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4434,7 +4434,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 310, y: -121}
+  m_AnchoredPosition: {x: 310, y: -103.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1795984505
@@ -4922,7 +4922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carInput: {fileID: 2993302098188029155}
   graphImage: {fileID: 2119828888}
-  historyLength: 300
+  historyLength: 150
 --- !u!114 &2119828888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6262,13 +6262,13 @@ MonoBehaviour:
   - maxSpeed: 43.7
     force: 800
   - maxSpeed: 76.3
-    force: 700
+    force: 500
   - maxSpeed: 117.7
-    force: 600
-  - maxSpeed: 149.2
-    force: 400
-  - maxSpeed: 146.5
     force: 300
+  - maxSpeed: 149.2
+    force: 250
+  - maxSpeed: 146.5
+    force: 200
   maxWheelRpm: 0
   wheelFL: {fileID: 5423238278429299486}
   wheelFR: {fileID: 8663117395293113545}
