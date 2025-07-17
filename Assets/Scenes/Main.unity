@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
   - component: {fileID: 330585549}
+  - component: {fileID: 330585550}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -384,7 +385,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc35e3d5a0620304aa8c32b03a9a24ba, type: 3}
   m_Name: 
@@ -400,9 +401,27 @@ MonoBehaviour:
   lowClipMaxVolume: 1
   midClipMaxVolume: 1
   highClipMaxVolume: 1
-  low_spread: 0.073
+  low_spread: 0.12
   mid_spread: 1
-  high_spread: 0.08
+  high_spread: 0.275
+--- !u!114 &330585550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbe5c740c1e05154db6dd696f4b838a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carInput: {fileID: 2993302098188029155}
+  engineClip: {fileID: 8300000, guid: 4b45e322373df73438614fbff363d4da, type: 3}
+  minPitch: 1
+  maxPitch: 4
+  pitchLerpSpeed: 2
+  volume: 1
 --- !u!1 &406768315
 GameObject:
   m_ObjectHideFlags: 0
@@ -2932,19 +2951,19 @@ MonoBehaviour:
   _maxAngle: 34
   gears:
   - maxSpeed: -26
-    force: -500
+    force: -675
   - maxSpeed: 0
     force: 0
   - maxSpeed: 43.7
-    force: 525
+    force: 675
   - maxSpeed: 76.3
-    force: 475
+    force: 550
   - maxSpeed: 117.7
-    force: 300
+    force: 400
   - maxSpeed: 149.2
-    force: 200
+    force: 300
   - maxSpeed: 146.5
-    force: 70
+    force: 100
   wheelFL: {fileID: 5423238278429299486}
   wheelFR: {fileID: 8663117395293113545}
   wheelBL: {fileID: 2407480759456218386}
