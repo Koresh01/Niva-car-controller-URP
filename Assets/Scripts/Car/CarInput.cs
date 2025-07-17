@@ -53,6 +53,9 @@ public class CarInput : MonoBehaviour
 
     public List<Gear> gears;
 
+    [Header("Максимально допустимые RPM колеса при текущей передаче")]
+    public float maxWheelRpm;
+
 
     [Header("Модельки колёс:")]
     public Transform wheelFL;
@@ -137,6 +140,11 @@ public class CarInput : MonoBehaviour
         SteeringHandle();
         ThrottleHandler();
         BrakeHandler();
+
+        LimitWheelRPM(FL);
+        LimitWheelRPM(FR);
+        LimitWheelRPM(BL);
+        LimitWheelRPM(BR);
     }
 
     void CollectMovementStatistics()
@@ -163,6 +171,9 @@ public class CarInput : MonoBehaviour
 
         // Задаём крутящий момент:
         RotationalMomentForce = gears[curGearInx].force;
+
+        // Максимально допустимый RPM колеса (по ограничению на текущей передаче)
+        maxWheelRpm = (Mathf.Abs(maxSpeedForThisGear) / (2f * Mathf.PI * wheelRadius)) * (1000f / 60f); // единица — об/мин
     }
 
     /// <summary>
@@ -255,4 +266,22 @@ public class CarInput : MonoBehaviour
         transform.position = position;
         transform.rotation = rotation;
     }
+
+
+    // Ограничитель скорости вращения колеса. (чтоб при срывании колеса оно не раскручивалось до бесконечности)
+    void LimitWheelRPM(WheelCollider wheel)
+    {
+        float absRpm = Mathf.Abs(wheel.rpm);
+        if (absRpm > maxWheelRpm)
+        {
+            // Сила торможения пропорциональна превышению
+            float excessRatio = (absRpm - maxWheelRpm) / maxWheelRpm;
+            float correctiveBrake = Mathf.Clamp01(excessRatio) * _brakeForce;
+
+            wheel.brakeTorque = correctiveBrake;
+            // Можно также отключить моторный момент:
+            wheel.motorTorque = 0f;
+        }
+    }
+
 }
