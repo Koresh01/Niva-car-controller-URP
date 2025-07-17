@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
   - component: {fileID: 330585549}
+  - component: {fileID: 330585550}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -384,7 +385,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc35e3d5a0620304aa8c32b03a9a24ba, type: 3}
   m_Name: 
@@ -402,7 +403,23 @@ MonoBehaviour:
   highClipMaxVolume: 1
   low_spread: 0.073
   mid_spread: 1
-  high_spread: 0.08
+  high_spread: 0.305
+--- !u!114 &330585550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a379ff5a8274eec4190becceb793bc68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carInput: {fileID: 2993302098188029155}
+  minBPM: 80
+  maxBPM: 522
+  engineLoopClip: {fileID: 8300000, guid: ada1fdb8cd9c204499ca5fb51532c6bc, type: 3}
 --- !u!1 &406768315
 GameObject:
   m_ObjectHideFlags: 0
