@@ -77,9 +77,11 @@ public class WheelGroundCheker : MonoBehaviour
     {
         // Цвет колеса
         wheelImg.color = slipColor;
-        
+
         // Подпись под колесом
         //slipText.color = slipColor;
-        slipText.text = forwardSlip.ToString("F2");
+        int wheelRPM = (int)wheel.rpm;
+        int wheelSpeed_kmch = (int)(2 * Mathf.PI * wheel.radius * wheel.rpm / 60f * 3.6f);
+        slipText.text = wheelRPM + " об/мин" + "\n" + wheelSpeed_kmch + " км/ч";
     }
 }
