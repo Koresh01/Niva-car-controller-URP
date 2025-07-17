@@ -59,9 +59,9 @@ public class EngineSoundController : MonoBehaviour
 
     private void UpdateVolumes()
     {
-        float idleTarget = TriangularVolume(rpm01, 0f, low_spread) * lowClipMaxVolume;
-        float middleTarget = TriangularVolume(rpm01, 0.5f, mid_spread) * midClipMaxVolume;
-        float highTarget = TriangularVolume(rpm01, 1f, high_spread) * highClipMaxVolume;
+        float idleTarget = TriangularVolume(rpm01, lowRPMThreshold, low_spread) * lowClipMaxVolume;
+        float middleTarget = TriangularVolume(rpm01, middleRPMThreshold, mid_spread) * midClipMaxVolume;
+        float highTarget = TriangularVolume(rpm01, highRPMThreshold, high_spread) * highClipMaxVolume;
 
         idleSource.volume = Mathf.Lerp(idleSource.volume, idleTarget, Time.deltaTime * volumeFadeSpeed);
         middleSource.volume = Mathf.Lerp(middleSource.volume, middleTarget, Time.deltaTime * volumeFadeSpeed);
