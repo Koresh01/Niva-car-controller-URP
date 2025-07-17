@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 public class CarInput : MonoBehaviour
 {
     [Header("Rigidbody автомобиля.")]
-    [SerializeField] Rigidbody rb;
+    public Rigidbody rb;
 
     [Header("Movement Statistics --------------------------------------------------")]
 
