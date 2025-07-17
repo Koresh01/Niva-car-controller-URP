@@ -54,7 +54,7 @@ public class GraphRenderer
     /// <param name="color">Цвет заливки. Если null, используется чёрный.</param>
     public void Clear(Color? color = null)
     {
-        Color c = color ?? Color.black;
+        Color c = color ?? new Color(0, 0, 0, 0); // прозрачный по умолчанию
         Color[] pixels = new Color[Width * Height];
         for (int i = 0; i < pixels.Length; i++) pixels[i] = c;
         texture.SetPixels(pixels);

@@ -279,7 +279,7 @@ public class CarInput : MonoBehaviour
             float excessRatio = (absRpm - maxWheelRpm) / maxWheelRpm;
             float correctiveBrake = Mathf.Clamp01(excessRatio) * _brakeForce;
 
-            wheel.brakeTorque = correctiveBrake;
+            // wheel.brakeTorque = correctiveBrake;
             // Можно также отключить моторный момент:
             wheel.motorTorque = 0f;
         }

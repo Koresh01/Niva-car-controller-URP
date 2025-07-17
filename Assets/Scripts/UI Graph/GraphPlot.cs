@@ -12,6 +12,8 @@ public class GraphPlot
     private float? fixedXMin = null, fixedXMax = null;
     private float? fixedYMin = null, fixedYMax = null;
 
+    [Tooltip("Цвет линии графика.")]
+    public Color lineColor;
 
     /// <summary>
     /// Список всех добавленных точек графика (в пользовательских координатах).
@@ -97,7 +99,7 @@ public class GraphPlot
         var pixelPoints = NormalizePoints(points, renderer.Width, renderer.Height);
         renderer.Clear();
         renderer.DrawAxes(points, Color.gray); // ⬅️ Новый вызов для отрисовки осей
-        renderer.DrawGraph(pixelPoints, Color.green, thickness: 2f);
+        renderer.DrawGraph(pixelPoints, lineColor, thickness: 2f);
     }
 
     public void SetFixedRange(float? xMin, float? xMax, float? yMin, float? yMax)
