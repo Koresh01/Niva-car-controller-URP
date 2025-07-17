@@ -1,15 +1,15 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class EngineSound : MonoBehaviour
 {
-    [Header("Ссылки")]
+    [Header("РЎСЃС‹Р»РєРё")]
     public CarInput carInput;
 
-    [Header("Настройки BPM")]
-    public float minBPM = 80f; // Холостые обороты
-    public float maxBPM = 522f; // Отсечка
+    [Header("РќР°СЃС‚СЂРѕР№РєРё BPM")]
+    public float minBPM = 80f; // РҐРѕР»РѕСЃС‚С‹Рµ РѕР±РѕСЂРѕС‚С‹
+    public float maxBPM = 522f; // РћС‚СЃРµС‡РєР°
 
-    [Header("Аудио")]
+    [Header("РђСѓРґРёРѕ")]
     public AudioClip engineLoopClip;
 
     private AudioSource engineSource;
@@ -20,7 +20,7 @@ public class EngineSound : MonoBehaviour
         engineSource.clip = engineLoopClip;
         engineSource.loop = true;
         engineSource.playOnAwake = true;
-        engineSource.spatialBlend = 1f; // 3D звук
+        engineSource.spatialBlend = 1f; // 3D Р·РІСѓРє
         engineSource.volume = 1f;
         engineSource.Play();
     }
@@ -29,7 +29,7 @@ public class EngineSound : MonoBehaviour
     {
         float rpm01 = Mathf.Clamp01(carInput.curRPM);
 
-        // Вычисляем текущий BPM и устанавливаем pitch
+        // Р’С‹С‡РёСЃР»СЏРµРј С‚РµРєСѓС‰РёР№ BPM Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј pitch
         float currentBPM = Mathf.Lerp(minBPM, maxBPM, rpm01);
         engineSource.pitch = currentBPM / minBPM;
     }
