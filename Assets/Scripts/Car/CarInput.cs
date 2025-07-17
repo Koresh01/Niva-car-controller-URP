@@ -271,6 +271,7 @@ public class CarInput : MonoBehaviour
     // Ограничитель скорости вращения колеса. (чтоб при срывании колеса оно не раскручивалось до бесконечности)
     void LimitWheelRPM(WheelCollider wheel)
     {
+        if (curGearInx == 1) return;    // разрешаем на нейтралке колёсам крутится.
         float absRpm = Mathf.Abs(wheel.rpm);
         if (absRpm > maxWheelRpm)
         {
