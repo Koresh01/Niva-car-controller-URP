@@ -5829,37 +5829,6 @@ Transform:
   - {fileID: 794683633}
   m_Father: {fileID: 8552582984734971848}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1951596243
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1951596244}
-  m_Layer: 0
-  m_Name: "\u0426\u0435\u043D\u0442\u0440 \u043C\u0430\u0441\u0441"
-  m_TagString: Untagged
-  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1951596244
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1951596243}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.502, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 543450652272746401}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1960981539
 GameObject:
   m_ObjectHideFlags: 0
@@ -6296,7 +6265,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1951596244}
   - {fileID: 4376403691151885451}
   - {fileID: 4582175677120904764}
   - {fileID: 3053381408836009124}
@@ -7767,15 +7735,15 @@ MonoBehaviour:
   - maxSpeed: 0
     force: 0
   - maxSpeed: 43.7
-    force: 800
+    force: 850
   - maxSpeed: 76.3
-    force: 500
+    force: 800
   - maxSpeed: 117.7
-    force: 300
+    force: 725
   - maxSpeed: 149.2
-    force: 250
+    force: 650
   - maxSpeed: 146.5
-    force: 200
+    force: 625
   maxWheelRpm: 0
   wheelFL: {fileID: 5423238278429299486}
   wheelFR: {fileID: 8663117395293113545}
