@@ -183,13 +183,6 @@ public class CarInput : MonoBehaviour
     {
         FL.steerAngle = _maxAngle * steeringInput;
         FR.steerAngle = _maxAngle * steeringInput;
-
-        RotateWheel(FL, wheelFL);
-        RotateWheel(FR, wheelFR);
-
-        // задние колеса
-        RotateWheel(BR, wheelBR);
-        RotateWheel(BL, wheelBL);
     }
 
     /// <summary>
@@ -251,20 +244,6 @@ public class CarInput : MonoBehaviour
             BL.brakeTorque = 0;
             BR.brakeTorque = 0;
         }
-    }
-
-    /// <summary>
-    /// Поворачивает модельку колеса вслед за её колайдером.
-    /// </summary>
-    void RotateWheel(WheelCollider collider, Transform transform)
-    {
-        Vector3 position;
-        Quaternion rotation;
-
-        collider.GetWorldPose(out position, out rotation);
-
-        transform.position = position;
-        transform.rotation = rotation;
     }
 
 
