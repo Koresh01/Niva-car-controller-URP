@@ -70,11 +70,17 @@ public class EngineSoundController : MonoBehaviour
         //Debug.Log($"idle: {idleSource.volume:F2}, middle: {middleSource.volume:F2}, high: {highSource.volume:F2}");
     }
 
-
+    /// <summary>
+    /// Определяет необходимый уровень кромкости.
+    /// </summary>
+    /// <param name="value">RPM двигателя</param>
+    /// <param name="center">точка где эта дорожка играет максимально громко</param>
+    /// <param name="spread">ширина области звучания</param>
+    /// <returns></returns>
     private float TriangularVolume(float value, float center, float spread)
     {
         float distance = Mathf.Abs(value - center);
-        return Mathf.Clamp01(1f - distance / spread);
+        return Mathf.Clamp01(1f - distance / spread);   // там где distance(расст. до пика громкости) > (ширины области звучания этой дорожки) звук дорожки = 0.
     }
 
     private AudioSource CreateAudioSource(AudioClip clip)

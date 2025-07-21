@@ -18,6 +18,10 @@ public class RPMGraphic : MonoBehaviour
     [Tooltip("Сколько последних значений отображать на графике.")]
     public int historyLength = 100;
 
+    [Header("Частота обновления (сек):")]
+    private float redrawInterval = 0.1f; // раз в 0.1 сек (10 FPS)
+    private float redrawTimer = 0f;
+
     private List<Vector2> points = new();
     private GraphPlot plot;
 
@@ -42,8 +46,13 @@ public class RPMGraphic : MonoBehaviour
             points[^1] = new Vector2(historyLength - 1, currentThrottle); // Последний X — фиксированный
         }
 
-        plot.SetPoints(points);
-        plot.Redraw();
+        redrawTimer += Time.fixedDeltaTime;
+        if (redrawTimer >= redrawInterval)
+        {
+            plot.SetPoints(points);
+            plot.Redraw();
+            redrawTimer = 0f;
+        }
     }
 
     /// <summary>
